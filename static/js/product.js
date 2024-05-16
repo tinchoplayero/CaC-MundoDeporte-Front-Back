@@ -26,6 +26,7 @@ async function fetchProducts() {
       } catch (error) {
         console.error(`Could not get products: ${error}`);
       }
+      document.querySelector(".new-products").style.display="block";
   }
 fetchProducts();
 

@@ -273,8 +273,15 @@ margin:0 0 0 0;
     
     }
 
-    a,p,h1,h2,h3,h4,h5{
-        font-size: 80%;
+    .login-register, .cart{
+        font-size: 15px;
+    }
+    .p1, .p2, .p3, .p4{
+        font-size: 8px ;
+    }
+
+    #uname,#pass,#pass2,#email,#r-email{
+        width: 80%;
     }
 }
 
