@@ -1,0 +1,13 @@
+<form action="/modificar/{{producto.0}}" METHOD="POST">
+    <input type="text" name="nombre" placeholder="Nombre del Producto" value = "{{ producto.2 }}">
+    <input type="text" name="descripcion" placeholder="Descripcion del Producto" value = "{{ producto.3 }}">
+    <input type="text" name="precio" placeholder="Precio del Producto" value = "{{ producto.5 }}">
+    <input type="text" name="stock" placeholder="Cantidad en Stock" value = "{{ producto.6 }}">
+    <input type="text" name="cat_id" placeholder="Categoria del producto" value = "{{ producto.1 }}">
+    <input type="text" name="imagen" placeholder="Cargar Imagen" value = "{{ producto.4 }}">
+
+    <button type="submit">
+        Guardar
+    </button>
+
+</form>

@@ -1,0 +1,53 @@
+{% with messages = get_flashed_messages()%}
+{% if messages%}
+{% for message in messages%}
+<p>{{ message }}</p>
+{%endfor%}
+{%endif%}
+{%endwith%}
+
+
+
+<H2>LISTADO DE PRODUCTOS</H2>
+<table>
+    <thead>
+        <tr>
+            <td>Nombre</td>
+            <td>Descripcion</td>
+            <td>Precio</td>
+            <td>Stock</td>
+            <td>Categorias</td>
+            <td>Imagen</td>
+            <td>Operaciones</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for producto in productos %}
+        <tr>
+            <td>{{ producto.2 }}</td>
+            <td>{{ producto.3 }}</td>
+            <td>{{ producto.5 }}</td>
+            <td>{{ producto.6 }}</td>
+            <td>{{ producto.1 }}</td>
+            <td>{{ producto.4 }}</td>
+            <td>
+                <a href="/editar/{{ producto.0 }}">Editar</a>
+                <a href="/borrar/{{ producto.0 }}">Borrar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>AGREGAR UN PRODUCTO</h2>
+<form action="/agregar_productos" method="POST">
+    <input type="text" name="nombre" placeholder="Nombre del Producto">
+    <input type="text" name="descripcion" placeholder="Descripcion del Producto">
+    <input type="text" name="precio" placeholder="Precio del Producto">
+    <input type="text" name="stock" placeholder="Cantidad en Stock">
+    <input type="text" name="imagen" placeholder="Cargar Imagen">
+    <button type="submit">
+        Guardar
+    </button>
+
+</form>
