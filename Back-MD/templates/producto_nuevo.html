@@ -24,12 +24,12 @@
     <tbody>
         {% for producto in productos %}
         <tr>
+            <td>{{ producto.1 }}</td>
             <td>{{ producto.2 }}</td>
             <td>{{ producto.3 }}</td>
+            <td>{{ producto.4 }}</td>
             <td>{{ producto.5 }}</td>
             <td>{{ producto.6 }}</td>
-            <td>{{ producto.1 }}</td>
-            <td>{{ producto.4 }}</td>
             <td>
                 <a href="/editar/{{ producto.0 }}">Editar</a>
                 <a href="/borrar/{{ producto.0 }}">Borrar</a>
@@ -46,6 +46,14 @@
     <input type="text" name="precio" placeholder="Precio del Producto">
     <input type="text" name="stock" placeholder="Cantidad en Stock">
     <input type="text" name="imagen" placeholder="Cargar Imagen">
+
+    <!-- MENU DESPLEGABLE PARA LAS CATEGORIAS --> 
+    <select name="cat_id">
+        {% for categoria in categorias %}
+        <option value="{{ categoria[0] }}">{{ categoria[1] }}</option>
+        {% endfor %}
+    </select>
+
     <button type="submit">
         Guardar
     </button>

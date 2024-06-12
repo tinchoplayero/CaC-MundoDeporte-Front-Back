@@ -20,9 +20,24 @@ def Index():
 @app.route('/productos')
 def productos():
     cur = mysql.connection.cursor()
-    cur.execute('SELECT * FROM productos')
+    
+    # TRAE LOS DATOS DE LOS PRODUCTOS
+    #cur.execute('SELECT * FROM productos')
+    cur.execute('''
+        SELECT p.id, p.nombre, p.descripcion, p.precio, p.stock, c.nombre AS categoria, p.imagen
+        FROM productos p
+        JOIN categorias c ON p.cat_id = c.id
+    ''')
+
     dato = cur.fetchall()
-    return render_template('producto_nuevo.html', productos = dato)
+    
+    #TRAE LOS DATOS DE LAS CATEGORIAS
+    cur.execute('SELECT id, nombre FROM categorias')
+    datos_cat = cur.fetchall()
+
+    #PINTO EL HTML Y ME LLEVO LOS DATOS DE PRODUCTOS Y CATEGORIA
+    return render_template('producto_nuevo.html', productos = dato, categorias = datos_cat)
+
 
 @app.route('/agregar_productos', methods=['POST'])
 def agregar_productos():
@@ -32,8 +47,10 @@ def agregar_productos():
         precio = request.form['precio']
         stock = request.form['stock']
         imagen = request.form['imagen']
+        cat_id = request.form['cat_id']
+
         cur = mysql.connection.cursor()
-        cur.execute('INSERT INTO productos (nombre, descripcion, precio, stock, imagen) VALUES (%s, %s, %s, %s, %s)',(nombre, descripcion, precio, stock, imagen))
+        cur.execute('INSERT INTO productos (nombre, descripcion, precio, stock, imagen, cat_id) VALUES (%s, %s, %s, %s, %s, %s)',(nombre, descripcion, precio, stock, imagen, cat_id))
         mysql.connection.commit()
         flash('Producto agregado correctamente')
         return redirect(url_for('productos'))
@@ -42,9 +59,14 @@ def agregar_productos():
 @app.route('/editar/<id>')
 def edit_productos(id):
     cur = mysql.connection.cursor()
-    cur.execute('SELECT * FROM productos WHERE id = %s', (id))
-    dato = cur.fetchall()
-    return render_template('producto_editar.html', producto = dato[0])
+    cur.execute('SELECT * FROM productos WHERE id = %s', (id,))
+    producto = cur.fetchone()  
+    
+    cur.execute('SELECT id, nombre FROM categorias')
+    categorias = cur.fetchall()
+    
+    return render_template('producto_editar.html', producto=producto, categorias=categorias)
+
 
 @app.route('/modificar/<id>', methods = ['POST'])
 def modificar_producto(id):
