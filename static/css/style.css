@@ -11,13 +11,12 @@ body{
 }
 
 /* Creamos animaciones para que el texto del nav pase de blanco a dorado */
-.header-element a, .login-register, .cart{
+.header-element a, .login-register, .logout, .cart, .admin{
     color: white;
     font-size: 24px;
     transition: 0.3s all;
-
 }
-.header-element a:hover, .login-register:hover, .cart:hover {
+.header-element a:hover, .login-register:hover, .logout:hover, .cart:hover, .admin {
     color: goldenrod;
     cursor:pointer;
 }
@@ -50,7 +49,7 @@ body{
     height: 0;
 }
 /* Lo mismo pero con el login */
-.login-register{
+.login-register, .logout{
     grid-area: login-register;
     margin-left: 40%;
     margin-top: 5%;
@@ -244,7 +243,7 @@ margin:0 0 0 0;
                             'nav-menu nav-menu nav-menu';
         grid-template-columns: 33.3% 33.3% 33.3%;
     }
-    .login-register{
+    .login-register, .logout{
         grid-area: login-register;
         margin-left: 5%;
         margin-top: 5%;
@@ -273,7 +272,7 @@ margin:0 0 0 0;
     
     }
 
-    .login-register, .cart{
+    .login-register, .cart, .logout, .admin{
         font-size: 15px;
     }
     .p1, .p2, .p3, .p4{
