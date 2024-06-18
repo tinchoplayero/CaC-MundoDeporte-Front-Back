@@ -1,0 +1,105 @@
+{%  extends 'layout.html' %}
+{% block body %}
+
+{% with messages = get_flashed_messages()%}
+{% if messages%}
+{% for message in messages%}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{%endfor%}
+{%endif%}
+{%endwith%}
+
+
+
+<h2>LISTADO DE PRODUCTOS
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarProducto">
+    <strong>+</strong> Agregar un producto
+  </button>
+</h2>
+
+<table class="table table-hover">
+    <thead class="table-info">
+        <tr>
+            <td>Nombre</td>
+            <td>Descripcion</td>
+            <td>Precio</td>
+            <td>Stock</td>
+            <td>Categorias</td>
+            <td>Imagen</td>
+            <td>Operaciones</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for producto in productos %}
+        <tr>
+            <td>{{ producto.1 }}</td>
+            <td>{{ producto.2 }}</td>
+            <td>{{ producto.3 }}</td>
+            <td>{{ producto.4 }}</td>
+            <td>{{ producto.5 }}</td>
+            <td>{{ producto.6 }}</td>
+            <td>
+                <a href="/editar/{{ producto.0 }}" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a href="/borrar/{{ producto.0 }}" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+<!-- Modal AGREGAR Producto -->
+<div class="modal fade" id="agregarProducto" tabindex="-1" aria-labelledby="agregarProductoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="agregarProductoModalLabel">AGREGAR UN PRODUCTO</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="/agregar_productos" method="POST">
+                <div class="form-group">
+
+                </div>
+                <div class="form-group">
+                    <input type="text" name="nombre" placeholder="Nombre del Producto" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="descripcion" placeholder="Descripcion del Producto" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="precio" placeholder="Precio del Producto" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="stock" placeholder="Cantidad en Stock" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="imagen" placeholder="Cargar Imagen" class="form-control">
+                </div>
+            
+                <div class="form-group">
+                    <!-- MENU DESPLEGABLE PARA LAS CATEGORIAS -->
+                    <select name="cat_id" class="form-control">
+                        {% for categoria in categorias %}
+                        <option value="{{ categoria[0] }}">{{ categoria[1] }}</option>
+                        {% endfor %}
+                    </select>
+
+                </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+{% endblock %}
