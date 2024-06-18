@@ -1,72 +1,57 @@
-import mysql.connector
+#import mysql.connector
+from database import *
 
 class UserModel:
     def __init__(self):
-        self.connection = None
-
-    def connect(self):
-        if not self.connection or not self.connection.is_connected():
-            self.connection = mysql.connector.connect(
-                host='localhost',
-                user='root',
-                password='cacpython',
-                database='mundo_deporte'
-            )
-
-    def close(self):
-        if self.connection and self.connection.is_connected():
-            self.connection.close()
+        pass
 
     def add_user(self, nombre, email, contrasenia, admin):
-        self.connect()
-        cursor = self.connection.cursor()
+        db = get_db()
+        cursor = db.cursor()
         query = """
         INSERT INTO usuarios (nombre, email, contrasenia, admin) 
         VALUES (%s, %s, %s, %s)
         """
         cursor.execute(query, (nombre, email, contrasenia, admin))
-        self.connection.commit()
+        db.commit()
         cursor.close()
-        self.close()
 
     def get_user_by_email(self, email):
-        self.connect()
-        cursor = self.connection.cursor(dictionary=True)
+        db = get_db()
+        cursor = db.cursor(dictionary=True)#Agrego el parámetro dictionary porque devuelve diccionarios en lugar de tuplas.
         query = "SELECT * FROM usuarios WHERE email = %s"
         cursor.execute(query, (email,))
         user = cursor.fetchone()
         cursor.close()
-        self.close()
         return user
 
-    def get_all_users(self):
-        self.connect()
-        cursor = self.connection.cursor(dictionary=True)
-        query = "SELECT * FROM usuarios"
+    @staticmethod #Uso el decorador para indicar que es estatico y no se necesita instanciar
+    def get_all_users(): #No lleva self porque es estatico.
+        db = get_db()
+        cursor = db.cursor(dictionary=True)#Agrego el parámetro dictionary porque devuelve diccionarios en lugar de tuplas.
+        query = "SELECT * FROM users"
         cursor.execute(query)
         users = cursor.fetchall()
         cursor.close()
-        self.close()
         return users
 
     def delete_user(self, user_id):
-        self.connect()
-        cursor = self.connection.cursor()
+        db = get_db()
+        cursor = db.cursor()
         query = "DELETE FROM usuarios WHERE id = %s"
         cursor.execute(query, (user_id,))
-        self.connection.commit()
+        db.commit()
         cursor.close()
-        self.close()
 
     def update_user(self, user_id, nombre, email, contrasenia, admin):
-        self.connect()
-        cursor = self.connection.cursor()
+        db = get_db()
+        cursor = db.cursor()
         query = """
         UPDATE usuarios 
         SET nombre = %s, email = %s, contrasenia = %s, admin = %s
         WHERE id = %s
         """
         cursor.execute(query, (nombre, email, contrasenia, admin, user_id))
-        self.connection.commit()
+        db.commit()
         cursor.close()
-        self.close()
+     
