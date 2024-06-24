@@ -23,6 +23,10 @@ def login():
 def users():
     return user_view.get_all_users()
 
+@app.route('/user/<string:user_mail>', methods=['GET'])
+def get_user(user_mail):
+    return user_view.get_user(user_mail)
+
 @app.route('/user/<int:user_id>', methods=['DELETE'])
 def delete(user_id):
     return user_view.delete_user(user_id)

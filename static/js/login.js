@@ -13,10 +13,11 @@ document.getElementById('login-form').addEventListener('submit', function(event)
     })
     .then(response => response.json())
     .then(data => {
-        if (data.message === 'Inicio de sesión exitoso') {
+        if (data.success === 'Inicio de sesión exitoso') {
             alert('Inicio de sesión exitoso');
             localStorage.setItem('isLoggedIn', 'true');//Guardo en el localStorage que ya se encuetra logueado el ususario
             localStorage.setItem('isAdmin', data.isAdmin ? 'true' : 'false');
+            localStorage.setItem('nombre', data.nombre)
             window.location.href = '../index.html'; // Redirigir al inicio
         } else {
             alert('Email o contraseña incorrectos');

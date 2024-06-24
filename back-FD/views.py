@@ -16,7 +16,7 @@ class UserView:
 
         try:
             self.user_model.add_user(nombre, email, contrasenia, admin)
-            return jsonify({'message': 'Usuario registrado exitosamente'}), 201
+            return jsonify({'success': 'Usuario registrado exitosamente'}), 201
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
@@ -28,11 +28,18 @@ class UserView:
             return jsonify({'error': 'Faltan datos necesarios'}), 400
 
         user = self.user_model.get_user_by_email(email)
-        if user and user['email'] == email and user['contrasenia'] == contrasenia:
-            return jsonify({'message': 'Inicio de sesión exitoso', 'isAdmin' : user['admin']}), 200
+        if user and user['email'] == email and user['contrasenia'] == contrasenia: # type: ignore
+            return jsonify({'success': 'Inicio de sesión exitoso', 'isAdmin' : user['admin'], 'nombre': user['nombre']}), 200 # type: ignore
         else:
             return jsonify({'error': 'Email o contraseña incorrectos'}), 401
 
+    def get_user(self, data):
+        try:
+            user = self.user_model.get_user_by_email(data)
+            return jsonify(user), 200
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+        
     def get_all_users(self):
         try:
             users = self.user_model.get_all_users()
@@ -43,7 +50,7 @@ class UserView:
     def delete_user(self, user_id):
         try:
             self.user_model.delete_user(user_id)
-            return jsonify({'message': 'Usuario eliminado exitosamente'}), 200
+            return jsonify({'success': 'Usuario eliminado exitosamente'}), 200
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
@@ -58,6 +65,6 @@ class UserView:
 
         try:
             self.user_model.update_user(user_id, nombre, email, contrasenia, admin)
-            return jsonify({'message': 'Usuario actualizado exitosamente'}), 200
+            return jsonify({'success': 'Usuario actualizado exitosamente'}), 200
         except Exception as e:
             return jsonify({'error': str(e)}), 500
