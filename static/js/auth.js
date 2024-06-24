@@ -58,12 +58,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Aca la idea es que se muestre lo que el administrador puede ver
         if (isAdmin && isAdmin === 'true') {
-            carritoAdminLink.style.display = 'none';
-            const adminElement = document.createElement('a');
-            adminElement.className = 'cart';
-            adminElement.href = 'templates/usuarios.html';
-            adminElement.innerHTML = '<img src="static/img/users.png" width="20px" height="25px"> Administración de Usuarios';
-            container.appendChild(adminElement);
+            if (carritoAdminLink && currentPath != '/CaC-MundoDeporte-Front-Back/templates/usuarios.html') {
+                carritoAdminLink.style.display = 'none';
+            }
+            if (currentPath != '/CaC-MundoDeporte-Front-Back/templates/usuarios.html') {
+                const adminElement = document.createElement('a');
+                adminElement.className = 'cart';
+                adminElement.href = 'templates/usuarios.html';
+                adminElement.innerHTML = '<img src="static/img/users.png" width="20px" height="25px"> Administración de Usuarios';
+                container.appendChild(adminElement);
+            }
+            
         }
     } else {
         if (loginRegisterLink) {
@@ -73,7 +78,19 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function logout() {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('isAdmin');
-    location.reload(); //Refresca la página
+    if (localStorage.getItem('isLoggedIn')) {
+        localStorage.removeItem('isLoggedIn');
+        console.log('El elemento isLoggedIn fue eliminado.');
+    }
+
+    if (localStorage.getItem('isAdmin')) {
+        localStorage.removeItem('isAdmin');
+        console.log('El elemento isAdmin fue eliminado.');
+    }
+
+    if (localStorage.getItem('nombre')) {
+        localStorage.removeItem('nombre');
+        console.log('El elemento nombre fue eliminado.');
+    }
+    window.location.href = '/CaC-MundoDeporte-Front-Back/index.html';
 }

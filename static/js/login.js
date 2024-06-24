@@ -1,6 +1,8 @@
 document.getElementById('login-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
+    clean_localStorage()
+    
     const email = document.getElementById('uname').value;
     const contrasenia = document.getElementById('pass').value;
 
@@ -28,3 +30,17 @@ document.getElementById('login-form').addEventListener('submit', function(event)
         alert('Hubo un error en el inicio de sesión');
     });
 });
+
+function clean_localStorage() {
+    if (localStorage.getItem('isLoggedIn')) {
+        localStorage.removeItem('isLoggedIn');
+    }
+
+    if (localStorage.getItem('isAdmin')) {
+        localStorage.removeItem('isAdmin');
+    }
+
+    if (localStorage.getItem('nombre')) {
+        localStorage.removeItem('nombre');
+    }
+}
