@@ -1,96 +1,130 @@
-function register(){
+function register() {
     let format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-    let uname=document.getElementById("uname");
-    let email=document.getElementById("email");
-    let email2=document.getElementById("r-email");
-    let pass=document.getElementById("pass");
-    let pass2=document.getElementById("pass2");
+    let nombre = document.getElementById("uname");
+    let email = document.getElementById("email");
+    let email2 = document.getElementById("r-email");
+    let contrasenia = document.getElementById("contrasenia");
+    let contrasenia2 = document.getElementById("contrasenia2");
 
-// ***********************Comprobacion nombre de usuario***************************************
-
-    if (uname.value.length<=0){ 
-        // alert("El nombre de usuario no puede estar vacio"); 
+    // Validación del formulario
+    if (nombre.value.length <= 0 || nombre.value == null) {
         Swal.fire({
             icon: "warning",
             title: "ERROR en el nombre de usuario",
             text: "El nombre de usuario no puede estar vacio",
             confirmButtonText: "OK"
-          });
-          return false;
+        });
+        return false;
     }
-    if (uname.value.length>=10){ 
-        // alert("El nombre de usuario no puede superar los 10 caracteres"); 
+    if (nombre.value.length >= 10) {
         Swal.fire({
             icon: "warning",
             title: "ERROR en el nombre de usuario",
             text: "El nombre de usuario no puede superar los 10 caracteres",
             confirmButtonText: "OK"
-          });
-          return false;
-
+        });
+        return false;
     }
-    if (format.test(uname.value)){
-        //  alert("El nombre de usuario no puede tener caracteres especiales"); 
+    if (format.test(nombre.value)) {
         Swal.fire({
             icon: "warning",
             title: "ERROR en el nombre de usuario",
             text: "El nombre de usuario no puede tener caracteres especiales",
             confirmButtonText: "OK"
-          });
-          return false;
-
+        });
+        return false;
     }
 
-// **************************Comprobacion email***************************************
-    if(email.value.length<=0 || email2.value.length<=0){
+    if (email.value.length <= 0 || email2.value.length <= 0) {
         Swal.fire({
             icon: "warning",
             title: "ERROR en el correo",
             text: "Los correos electronicos no pueden ser vacios",
             confirmButtonText: "OK"
         });
-        return false;    
-        }    
+        return false;
+    }
 
-    if(!(email.value===email2.value)){
-            Swal.fire({
-                icon: "warning",
-                title: "ERROR en el correo",
-                text: "Los correos electronicos no son iguales",
-                confirmButtonText: "OK"
-            });
-            return false;    
-            }
-//**************************************Comprobacion contraseña**********************************
+    if (!(email.value === email2.value)) {
+        Swal.fire({
+            icon: "warning",
+            title: "ERROR en el correo",
+            text: "Los correos electronicos no son iguales",
+            confirmButtonText: "OK"
+        });
+        return false;
+    }
 
-    if(pass.value.length<=0 || pass2.value.length<=0){
+    if (contrasenia.value.length <= 0 || contrasenia2.value.length <= 0) {
         Swal.fire({
             icon: "warning",
             title: "ERROR en la contraseña",
             text: "La contraseña no puede estar vacia",
             confirmButtonText: "OK"
         });
-        return false;    
-        }    
+        return false;
+    }
 
-    if(pass.value.length<=8 || pass2.value.length<=8){
+    if (contrasenia.value.length <= 8 || contrasenia2.value.length <= 8) {
         Swal.fire({
             icon: "warning",
             title: "ERROR en la contraseña",
             text: "La contraseña debe tener 8 o mas caracteres",
             confirmButtonText: "OK"
         });
-        return false;    
-        }    
+        return false;
+    }
 
-    if(!(pass.value===pass2.value)){
+    if (!(contrasenia.value === contrasenia2.value)) {
+        Swal.fire({
+            icon: "warning",
+            title: "ERROR en la contraseña",
+            text: "Las contraseñas no pueden ser distintas",
+            confirmButtonText: "OK"
+        });
+        return false;
+    }
+
+    // Enviar los datos al servidor
+    let userData = {
+        nombre: nombre.value,
+        email: email.value,
+        contrasenia: contrasenia.value
+    };
+
+    fetch('http://127.0.0.1:5000/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
             Swal.fire({
-                icon: "warning",
-                title: "ERROR en la contraseña",
-                text: "Las contraseñas no pueden ser distintas",
+                icon: "success",
+                title: "Registro exitoso",
+                text: "Usuario registrado correctamente",
                 confirmButtonText: "OK"
             });
-            return false;    
-            }
-    return true;    //en caso de que no entre a ningun condicional enviara el formulario
-}//end function
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Error en el registro",
+                text: data.error,
+                confirmButtonText: "OK"
+            });
+        }
+    })
+    .catch(error => {
+        Swal.fire({
+            icon: "error",
+            title: "Error en el servidor",
+            text: "Ocurrió un error en el servidor, por favor inténtelo más tarde.",
+            confirmButtonText: "OK"
+        });
+    });
+
+    return false;  // Evitar el envío del formulario por defecto
+}

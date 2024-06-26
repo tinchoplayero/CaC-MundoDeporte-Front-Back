@@ -44,7 +44,7 @@ class UserModel:
                 db.close()
         return user
 
-    @staticmethod
+    @staticmethod #Lo designo como método estático para poder usarlo sin necesidad de instanciar el objeto UserModel
     def get_all_users():
         db = None
         cursor = None

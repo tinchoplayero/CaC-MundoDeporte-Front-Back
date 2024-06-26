@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS #Incorpore esto porque me arrojaba un error
 from views import UserView
-from database import init_app #importo desde el conecto la conección a la base de datos 
+from database import init_app #importo desde la conección a la base de datos 
 
 app = Flask(__name__)
 init_app(app)
