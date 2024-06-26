@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // manejador para el envio de formulario segun sea para edit o para creacio
     const userForm = document.getElementById('userForm');
     userForm.addEventListener('submit', function(event) {
-        event.preventDefault();
+        event.preventDefault();//Previene el envio del formulario
 
         const userId = document.getElementById('userId').value;
         const nombre = document.getElementById('userNombre').value;
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const admin = document.getElementById('userAdmin').checked;
 
         const method = userId ? 'PUT' : 'POST';
-        const url = userId ? `http://127.0.0.1:5000/user/${userId}` : 'http://127.0.0.1:5000/register';
+        const url = userId ? `http://127.0.0.1:5000/user/${userId}` : 'http://127.0.0.1:5000/register'; //Si tiene id le pega al endpoint de editar y si no tiene al de registrar
 
         fetch(url, {
             method: method,
@@ -65,21 +65,21 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify({ nombre, email, contrasenia, admin })
         })
-        .then(response => response.json())
+        .then(response => response.json())//Ejecuto la consulta y manejo el resultado si es success como si da error
         .then(data => {
             if (data.success) {
-                resetModal();
-                location.reload();
+                resetModal();//Reseteo los datos del modal de carga de usuario para que no quedene en el local host
+                location.reload();//Refresco la pagina
             } else {
-                alert('Failed to ' + (userId ? 'update' : 'add') + ' user.');
+                alert('Failed to ' + (userId ? 'update' : 'add') + ' user.'); //Si falla emito un alert
             }
         });
     });
 });
 
-function handleEdit(event) {
+function handleEdit(event) {//Este es manejador de edicion de ususarios
     const userMail = event.target.getAttribute('data-mail');
-    fetch(`http://127.0.0.1:5000/user/${userMail}`, {
+    fetch(`http://127.0.0.1:5000/user/${userMail}`, {//Envia el correo como parámetro ya que buscamos que traiga los datos del usuario que queremos editar y los despliegue en el modal
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -98,14 +98,14 @@ function handleEdit(event) {
     });
 }
 
-function handleDelete(event) {
+function handleDelete(event) {//Manejador de borrado. Enviamos como lo pide el endpoint de borrado la url con el metodo DELETE
     const userId = event.target.getAttribute('data-id');
 
     if (confirm("Are you sure you want to delete this user?")) {
         fetch(`http://127.0.0.1:5000/user/${userId}`, {
             method: 'DELETE'
         })
-        .then(response => response.json())
+        .then(response => response.json())//Si la promesa se cumple "Success" refrescamos la página sino alertamos el error
         .then(data => {
             if (data.success) {
                 location.reload();
@@ -116,7 +116,7 @@ function handleDelete(event) {
     }
 }
 
-function resetModal() {
+function resetModal() {//Metodo para asegurarnos de resetear el modal para que no quede la información cacheada
     document.getElementById('userId').value = '';
     document.getElementById('userNombre').value = '';
     document.getElementById('userEmail').value = '';

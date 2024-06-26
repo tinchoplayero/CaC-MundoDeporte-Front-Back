@@ -85,8 +85,8 @@ function register() {
         return false;
     }
 
-    // Enviar los datos al servidor
-    let userData = {
+    // Se incorpora al código original la funcionalidad para enviar el request a la api flask y recibir la respuesta
+    let userData = { //Almacenamos lo recibido desde el fomurario en un diccionario que es lo que espera la API
         nombre: nombre.value,
         email: email.value,
         contrasenia: contrasenia.value
@@ -98,11 +98,11 @@ function register() {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(userData)
-    })
+    })//Enviamos la consutla al endpoint y procesamos la respuesta segun el valor recibido
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            Swal.fire({
+            Swal.fire({ //Mantanemos la utilización de SweetFire para las alertas
                 icon: "success",
                 title: "Registro exitoso",
                 text: "Usuario registrado correctamente",
@@ -117,7 +117,7 @@ function register() {
             });
         }
     })
-    .catch(error => {
+    .catch(error => {//Aprovechamos el SweetFire para manejar las excepciones tambien
         Swal.fire({
             icon: "error",
             title: "Error en el servidor",
@@ -126,5 +126,5 @@ function register() {
         });
     });
 
-    return false;  // Evitar el envío del formulario por defecto
+    return false;  // Con esto evitamos el envio del formulario.
 }

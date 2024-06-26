@@ -1,23 +1,23 @@
-#import mysql.connector
-from database import *
+from database import * #Importo la conecciona a la base de datos
 
 class UserModel:
-    def __init__(self):
+    def __init__(self): #No le paso argumentos al constructor porque no me interesa mucho usarlo con objeto el model y prefiero que las variables sean locales a cada metodo.
         pass
 
-    def add_user(self, nombre, email, contrasenia, admin):
-        db = None
+    def add_user(self, nombre, email, contrasenia, admin):#Metodo para agregar nuevos usuarios
+        db = None #Declaro las variables para la base de datos  
         cursor = None
         try:
-            db = get_db()
-            cursor = db.cursor()
+            db = get_db()#guardo la conección
+            cursor = db.cursor() #guardo el cursor
+            #Creo la query que voy a ejecutar luego con el cursor
             query = """
             INSERT INTO usuarios (nombre, email, contrasenia, admin) 
             VALUES (%s, %s, %s, %s)
             """
-            cursor.execute(query, (nombre, email, contrasenia, admin))
+            cursor.execute(query, (nombre, email, contrasenia, admin))#Ejecuto la query creada y hago el commit a la base de datos para que se guarden los datos nuevos
             db.commit()
-        except Exception as e:
+        except Exception as e:#Manejo las excepciones y finalmente cierro el cursos y la conección.
             print(f"Error adding user: {e}")
         finally:
             if cursor:
@@ -28,13 +28,13 @@ class UserModel:
     def get_user_by_email(self, email):
         db = None
         cursor = None
-        user = None
+        user = None#A diferencia del de agregar declaro una variable para guardar lo que traiga de la base de datos para luego devolverlo a la consulta
         try:
             db = get_db()
             cursor = db.cursor(dictionary=True)
             query = "SELECT * FROM usuarios WHERE email = %s"
             cursor.execute(query, (email,))
-            user = cursor.fetchone()
+            user = cursor.fetchone()#Guardo en la variable la respuesta de la base de datos
         except Exception as e:
             print(f"Error getting user by email: {e}")
         finally:
@@ -42,9 +42,10 @@ class UserModel:
                 cursor.close()
             if db:
                 db.close()
-        return user
+        return user #Devuelvo lo que trajo la consulta
 
     @staticmethod #Lo designo como método estático para poder usarlo sin necesidad de instanciar el objeto UserModel
+    #Metodo para traer todos los usuarios de la base de datos
     def get_all_users():
         db = None
         cursor = None
@@ -64,6 +65,7 @@ class UserModel:
                 db.close()
         return users
 
+    #Metodo para borrar usuarios
     def delete_user(self, user_id):
         db = None
         cursor = None
@@ -81,6 +83,7 @@ class UserModel:
             if db:
                 db.close()
 
+    #Método para actualizar un usuario
     def update_user(self, user_id, nombre, email, contrasenia, admin):
         db = None
         cursor = None

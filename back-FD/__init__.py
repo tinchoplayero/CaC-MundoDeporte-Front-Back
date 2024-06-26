@@ -8,29 +8,34 @@ init_app(app)
 CORS(app)
 
 user_view = UserView()
-
+#Ruta para el registro de ususarios
 @app.route('/register', methods=['POST'])
 def register():
     data = request.json
     return user_view.register_user(data)
 
+#Ruta para logueo de usuarios
 @app.route('/login', methods=['POST'])
 def login():
     data = request.json
     return user_view.login_user(data)
 
+#Ruta para la vista de todos los usuarios
 @app.route('/users', methods=['GET'])
 def users():
     return user_view.get_all_users()
 
+#Ruta para recuperar 1 solo usuarios a traves del correo
 @app.route('/user/<string:user_mail>', methods=['GET'])
 def get_user(user_mail):
     return user_view.get_user(user_mail)
 
+#Ruta para borrar ususarios
 @app.route('/user/<int:user_id>', methods=['DELETE'])
 def delete(user_id):
     return user_view.delete_user(user_id)
 
+#Ruta para editar un usuario
 @app.route('/user/<int:user_id>', methods=['PUT'])
 def edit(user_id):
     data = request.json

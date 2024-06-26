@@ -1,15 +1,15 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
+document.addEventListener('DOMContentLoaded', function() {//Este método lo usamos para comprobar si hay un usuario logueado y si este ususario es administrador o no
+    const isLoggedIn = localStorage.getItem('isLoggedIn');//REcojo del localStorage si esta logueado, nombre y si es admin
     const username = localStorage.getItem('nombre');
     const isAdmin = localStorage.getItem('isAdmin');
-    const loginRegisterLink = document.querySelector('.login-register');
+    const loginRegisterLink = document.querySelector('.login-register');//Recojo el containes, el login register y el carrito que vamos a modificar si esta logueado ono y si es administrador o no
     const carritoAdminLink = document.querySelector('.cart');
     const container = document.querySelector('.container');
 
-    const currentPath = window.location.pathname;
+    const currentPath = window.location.pathname;//Verifico el path para adaptar la busqueda de assets segun si estamos en el index o en otro locación
     
     if (isLoggedIn && isLoggedIn === 'true') {
-        // Oculto el enlace de iniciar sesión
+        // Si ya hay un usuario logueado oculto el enlace de iniciar sesión y le agrego el nombre de ususario el titulo
         if (username) {
             document.title += username;
         }
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
             loginRegisterLink.style.display = 'none';
         }
 
-        // Creo enlace de cierre de sesión
+        // Creo enlace de cierre de sesión en el espacio del grid en que iba el de logueo segun la pagina en la que esta el ususario
         const logoutLink = document.createElement('a');
         logoutLink.href = '#';
         if (currentPath === '/CaC-MundoDeporte-Front-Back/' || currentPath === '/CaC-MundoDeporte-Front-Back/index.html' || currentPath === '/CaC-MundoDeporte-Front-Back/index.html') {
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-function logout() {
+function logout() {//Funcion para desloguear un usuario y redirigir al inicio
     if (localStorage.getItem('isLoggedIn')) {
         localStorage.removeItem('isLoggedIn');
         console.log('El elemento isLoggedIn fue eliminado.');
