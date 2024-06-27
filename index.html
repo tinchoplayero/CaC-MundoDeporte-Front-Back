@@ -5,6 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
         <link rel="stylesheet" href="static/css/style.css">
         <title>Mundo deportes inicio - </title>
     </head>
@@ -29,10 +30,10 @@
                 <nav class="nav-menu">
                     <ul class="nav-menu-ul">
                         <li class="header-element">
-                            <a href="">Ropa Deportiva</a>
+                            <a href="/index.html">Inicio</a>
                         </li>
                         <li class="header-element">
-                            <a href="">Artes Marciales</a>
+                            <a href="templates/products.html">Todos los Productos</a>
                         </li>
                         <li class="header-element">
                             <a href="">Deportes</a>
@@ -45,41 +46,16 @@
             </div>
         </header>
         <!--Body-->
-        <section class="new-products">
-            <h2 class="subtitle">LO MAS NUEVO</h2>
-            <div class="container-products">
-                <div class="p1-container">
-                    <a class="p1" href="templates/product.html">
-                        <img class="img-prod" src="static/img/productos/Raqueta/1.webp" width="100%">
-                        <p>RAQUETA DE TENIS ULTRA 100 V4</p>
-                        <p>$50.000,00</p>
-                    </a>
-
-                </div>
-                <div class="p2-container">
-                    <a class="p2" href="templates/product.html">
-                        <img class="img-prod" src="static/img/productos/pelota-basket/Pelota-basquet-striker-N7.jpg" width="100%">
-                        <p>PELOTA BASQUET STRIKER</p>
-                        <p>$22.000,00</p>
-                    </a>
-                </div>
-                <div class="p3-container">
-                    <a class="p3" href="templates/product.html">
-                        <img class="img-prod" src="static/img/productos/Paleta-padel/Paleta-Snauwaert-Padel-BX2.jpg" width="100%">
-                        <p>PALETA PADEL SNAUWAERT BX2</p>
-                        <p>$57.000,00</p>
-                    </a>
-
-                </div>
-                <div class="p4-container">
-                    <a class="p4" href="templates/product.html">
-                        <img class="img-prod" src="static/img/productos/Rodilleras/rodillera-voley-body-therm.jpg" width="100%">
-                        <p>RODILLERA VOLEY ALTO IMPACTO BODY THERM</p>
-                        <p>$19.000,00</p>
-                    </a>
-                </div>
+       <main>
+        
+        
+            <div class="row" id="productGrid">
+                <!-- Aquí se insertarán los productos -->
             </div>
-        </section>
+        
+        
+    </main>
+       
     
         <footer>
             <div class="footer">
@@ -87,6 +63,7 @@
             </div>
     </footer>
     <script src="static/js/auth.js"></script>
+    <script src="/static/js/product_index.js"></script>
     
     </body>
 </html>
