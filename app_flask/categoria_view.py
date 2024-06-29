@@ -14,7 +14,7 @@ class CategoriaView:
 
     def add_category(self):
         data = request.json
-        nombre = data.get('nombre')
+        nombre = data.get('nombre')#type: ignore
 
         if not nombre:
             return jsonify({'error': 'Falta el nombre de la categoría'}), 400
@@ -37,7 +37,7 @@ class CategoriaView:
 
     def update_category(self, categoria_id):
         data = request.json
-        nombre = data.get('nombre')
+        nombre = data.get('nombre')#type: ignore
 
         if not nombre:
             return jsonify({'error': 'Falta el nombre de la categoría'}), 400

@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {//Este método lo usamos para comprobar si hay un usuario logueado y si este ususario es administrador o no
+   
     const isLoggedIn = localStorage.getItem('isLoggedIn');//REcojo del localStorage si esta logueado, nombre y si es admin
     const username = localStorage.getItem('nombre');
     const isAdmin = localStorage.getItem('isAdmin');
@@ -7,7 +8,18 @@ document.addEventListener('DOMContentLoaded', function() {//Este método lo usam
     const container = document.querySelector('.container');
 
     const currentPath = window.location.pathname;//Verifico el path para adaptar la busqueda de assets segun si estamos en el index o en otro locación
-    
+
+    console.log(currentPath)
+        //Verifico que si se esta cargadon admin, ususarios.html o productos y no es admin entonces vuevla al index
+    if (currentPath === '/CaC-MundoDeporte-Front-Back/templates/usuarios.html' || currentPath === '/CaC-MundoDeporte-Front-Back/templates/productos.html' || currentPath === '/CaC-MundoDeporte-Front-Back/templates/admin.html') {
+        
+        if (!isAdmin || isAdmin !== 'true') {
+            alert('No tienes permisos de administrador. Serás redirigido a la página principal.');
+            window.location.href = '/CaC-MundoDeporte-Front-Back/';
+            return;
+        }
+    }
+
     if (isLoggedIn && isLoggedIn === 'true') {
         // Si ya hay un usuario logueado oculto el enlace de iniciar sesión y le agrego el nombre de ususario el titulo
         if (username) {
@@ -20,8 +32,8 @@ document.addEventListener('DOMContentLoaded', function() {//Este método lo usam
         // Creo enlace de cierre de sesión en el espacio del grid en que iba el de logueo segun la pagina en la que esta el ususario
         const logoutLink = document.createElement('a');
         logoutLink.href = '#';
-        if (currentPath === '/CaC-MundoDeporte-Front-Back/' || currentPath === '/CaC-MundoDeporte-Front-Back/index.html' || currentPath === '/CaC-MundoDeporte-Front-Back/index.html') {
-            logoutLink.className = 'logout';
+        if (currentPath === '/CaC-MundoDeporte-Front-Back/' || currentPath === '/CaC-MundoDeporte-Front-Back/index.html') {
+            logoutLink.className = 'logout  text-decoration-none';
             logoutLink.innerHTML = `
                 <img src="static/img/user.png" width="20px" height="20px">
                 Salir
@@ -45,27 +57,19 @@ document.addEventListener('DOMContentLoaded', function() {//Este método lo usam
             }
         }
         logoutLink.onclick = logout;
-
-        //Verifico que si se esta cargadon ususarios.html y no es admin entonces vuevla al index
-        if (currentPath === '/CaC-MundoDeporte-Front-Back/templates/usuarios.html') {
-            if (!isAdmin || isAdmin !== 'true') {
-                alert('No tienes permisos de administrador. Serás redirigido a la página principal.');
-                window.location.href = '/CaC-MundoDeporte-Front-Back/';
-                return;
-            }
-        }
-
+        
 
         // Aca la idea es que se muestre lo que el administrador puede ver
         if (isAdmin && isAdmin === 'true') {
-            if (carritoAdminLink && currentPath != '/CaC-MundoDeporte-Front-Back/templates/usuarios.html') {
+            if (carritoAdminLink != null && currentPath != '/CaC-MundoDeporte-Front-Back/templates/usuarios.html' || currentPath != '/CaC-MundoDeporte-Front-Back/templates/productos.html' || currentPath != '/CaC-MundoDeporte-Front-Back/templates/admin.html') {
+                console.log(carritoAdminLink);
                 carritoAdminLink.style.display = 'none';
             }
-            if (currentPath != '/CaC-MundoDeporte-Front-Back/templates/usuarios.html') {
+            if (currentPath != '/CaC-MundoDeporte-Front-Back/templates/usuarios.html' || currentPath != '/CaC-MundoDeporte-Front-Back/templates/productos.html' || currentPath != '/CaC-MundoDeporte-Front-Back/templates/admin.html') {
                 const adminElement = document.createElement('a');
-                adminElement.className = 'cart';
-                adminElement.href = 'templates/usuarios.html';
-                adminElement.innerHTML = '<img src="static/img/users.png" width="20px" height="25px"> Administración de Usuarios';
+                adminElement.className = 'cart  text-decoration-none';
+                adminElement.href = 'templates/admin.html';
+                adminElement.innerHTML = '<img src="static/img/users.png" width="20px" height="25px"> Administración General';
                 container.appendChild(adminElement);
             }
             

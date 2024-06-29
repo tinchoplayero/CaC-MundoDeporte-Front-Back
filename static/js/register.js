@@ -107,6 +107,8 @@ function register() {
                 title: "Registro exitoso",
                 text: "Usuario registrado correctamente",
                 confirmButtonText: "OK"
+            }).then(() => {
+                window.location.href = '/CaC-MundoDeporte-Front-Back/index.html'; // Redirigir al índice
             });
         } else {
             Swal.fire({

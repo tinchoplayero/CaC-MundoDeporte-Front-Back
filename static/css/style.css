@@ -14,7 +14,7 @@ body{
 /* Creamos animaciones para que el texto del nav pase de blanco a dorado */
 .header-element a, .login-register, .logout, .cart, .admin{
     color: white;
-    font-size: 24px;
+    font-size: 20px;
     transition: 0.3s all;
 }
 .header-element a:hover, .login-register:hover, .logout:hover, .cart:hover, .admin {
@@ -274,7 +274,7 @@ margin:0 0 0 0;
     }
 
     .login-register, .cart, .logout, .admin{
-        font-size: 15px;
+        font-size: 12px;
     }
     .p1, .p2, .p3, .p4{
         font-size: 8px ;

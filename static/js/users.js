@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 <td>${user.email}</td>
                 <td>${user.admin ? 'Yes' : 'No'}</td>
                 <td>
-                    <button class="btn btn-primary btn-sm edit-btn" data-id="${user.id}" data-mail="${user.email}" data-bs-toggle="modal" data-bs-target="#userModal">Edit</button>
-                    <button class="btn btn-danger btn-sm delete-btn" data-id="${user.id}">Delete</button>
+                    <button class="btn btn-secondary btn-sm edit-btn m-1" data-id="${user.id}" data-mail="${user.email}" data-bs-toggle="modal" data-bs-target="#userModal">Edit</button>
+                    <button class="btn btn-danger btn-sm delete-btn m-1" data-id="${user.id}">Delete</button>
                 </td>
             `;
 

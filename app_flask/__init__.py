@@ -52,7 +52,7 @@ def edit(user_id):
 def get_products():
     return product_view.get_all_products()
 
-@app.route('/productos', methods=['POST'])
+@app.route('/producto', methods=['POST'])
 def add_product():
     data = request.json
     return product_view.add_product(data)

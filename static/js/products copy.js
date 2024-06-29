@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+    
     fetch('http://127.0.0.1:5000/productos', {
         method: 'GET',
         headers: {
@@ -10,30 +11,36 @@ document.addEventListener('DOMContentLoaded', function () {
         const productTableBody = document.getElementById('productTableBody');
         productTableBody.innerHTML = '';
 
-        data.forEach(product => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${product.id}</td>
-                <td>${product.nombre}</td>
-                <td>${product.descripcion}</td>
-                <td>${product.precio}</td>
-                <td>${product.stock}</td>
-                <td>${product.categoria}</td>
-                <td><img src="${product.imagen}" alt="Imagen de producto" style="width: 50px; height: auto;"></td>
-                <td>
-                    <button class="btn btn-secondary btn-sm edit-btn m-1" data-id="${product.id}" data-bs-toggle="modal" data-bs-target="#productModal"><i class="fa-solid fa-pen-to-square"></i></button>
-                    <button class="btn btn-danger btn-sm delete-btn m-1" data-id="${product.id}"><i class="fa-solid fa-trash-can"></i></button>
-                </td>
-            `;
-            productTableBody.appendChild(row);
+        
+
+        const promises = data.map(product => {
+                       
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${product.id}</td>
+                    <td>${product.nombre}</td>
+                    <td>${product.descripcion}</td>
+                    <td>${product.precio}</td>
+                    <td>${product.stock}</td>
+                    <td>${product.categoria}</td>
+                    <td><img src="${product.imagen}" alt="Imagen de producto" style="width: 50px; height: auto;"></td>
+                    <td>
+                        <button class="btn btn-primary btn-sm edit-btn" data-id="${product.id}" data-bs-toggle="modal" data-bs-target="#productModal"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button class="btn btn-danger btn-sm delete-btn" data-id="${product.id}"><i class="fa-solid fa-trash-can"></i></button>
+                    </td>
+                `;
+                productTableBody.appendChild(row);
+            
         });
 
-        document.querySelectorAll('.edit-btn').forEach(button => {
-            button.addEventListener('click', handleEdit);
-        });
+        Promise.all(promises).then(() => {
+            document.querySelectorAll('.edit-btn').forEach(button => {
+                button.addEventListener('click', handleEdit);
+            });
 
-        document.querySelectorAll('.delete-btn').forEach(button => {
-            button.addEventListener('click', handleDelete);
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', handleDelete);
+            });
         });
     })
     .catch(error => {
@@ -43,7 +50,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const addProductBtn = document.getElementById('addProductBtn');
     addProductBtn.addEventListener('click', function() {
         resetModal();
-        loadCategories(); // Cargar categorías sin seleccionar ninguna
         document.getElementById('productModalLabel').innerText = 'Agregar Producto';
         document.getElementById('modalSubmitBtn').innerText = 'Agregar Producto';
     });
@@ -85,8 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function handleEdit(event) {
-    const productId = event.currentTarget.getAttribute('data-id');
-
+    const productId = event.target.getAttribute('data-id');
     fetch(`http://127.0.0.1:5000/producto/${productId}`, {
         method: 'GET',
         headers: {
@@ -100,9 +105,8 @@ function handleEdit(event) {
         document.getElementById('productDescription').value = product.descripcion;
         document.getElementById('productPrice').value = product.precio;
         document.getElementById('productStock').value = product.stock;
+        document.getElementById('productCategory').value = product.cat_id;
         document.getElementById('productImage').value = product.imagen;
-
-        loadCategories(product.cat_id); // Cargar categorías y seleccionar la categoría original
 
         document.getElementById('productModalLabel').innerText = 'Editar Producto';
         document.getElementById('modalSubmitBtn').innerText = 'Guardar Cambios';
@@ -110,7 +114,7 @@ function handleEdit(event) {
 }
 
 function handleDelete(event) {
-    const productId = event.currentTarget.getAttribute('data-id');
+    const productId = event.target.getAttribute('data-id');
 
     if (confirm("¿Seguro que quieres eliminar este producto?")) {
         fetch(`http://127.0.0.1:5000/producto/${productId}`, {
@@ -135,40 +139,4 @@ function resetModal() {
     document.getElementById('productStock').value = '';
     document.getElementById('productCategory').value = '';
     document.getElementById('productImage').value = '';
-}
-
-function loadCategories(selectedCategoryId = null) {
-    fetch('http://127.0.0.1:5000/categorias', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        const categorySelect = document.getElementById('productCategory');
-        categorySelect.innerHTML = ''; // Limpia las opciones actuales
-
-        // Agregar opción vacía como primera opción
-        const emptyOption = document.createElement('option');
-        emptyOption.value = '';
-        emptyOption.text = 'Seleccionar categoría';
-        categorySelect.appendChild(emptyOption);
-
-        // Llenar opciones de categorías desde la base de datos
-        data.forEach(category => {
-            const option = document.createElement('option');
-            option.value = category.id;
-            option.text = category.nombre;
-
-            if (category.id === selectedCategoryId) {
-                option.selected = true; // Selecciona la categoría original del producto
-            }
-
-            categorySelect.appendChild(option);
-        });
-    })
-    .catch(error => {
-        console.error('Error al obtener las categorías:', error);
-    });
 }
